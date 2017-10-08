@@ -226,4 +226,18 @@ $(document).ready(function () {
         success: results.loadXML,
         context: results
     });
+
+    // create a repeating timer to check the results every 30 seconds
+    var interval = setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: "results-IOFv3.xml",
+            cache: false,
+            dataType: "xml",
+            success: results.loadXML,
+            context: results
+        });
+    }, 5000);
+
 });
+
