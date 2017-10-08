@@ -12,7 +12,7 @@ function Results() {
     this.timeStamp = '';
     this.classes = [];
 
-    // extract recent data from cookies
+    // extract recent data from localStorage
     if ('eventName'in localStorage) this.eventName = localStorage['eventName'];
     if ('timeStamp' in localStorage) this.timeStamp = localStorage['timeStamp'];
     if ('classes' in localStorage) this.classes = JSON.parse(localStorage['classes']);
