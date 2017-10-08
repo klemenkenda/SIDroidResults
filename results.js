@@ -40,7 +40,7 @@ function Results() {
         // extract categories and results
         results.classes = [];
         $xml.find("ResultList").find("ClassResult").each(function() {
-            var className = $(this).find("Class").find("Name").text();
+            var className = $(this).find("Class").find("Name").text().replace(" ", "-");
             var resultTable = results.extractTable($(this));
             results.classes.push({ class: className, results: resultTable });
         }, results);

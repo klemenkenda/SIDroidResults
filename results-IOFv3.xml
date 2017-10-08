@@ -1,8 +1,69 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<ResultList xmlns="http://www.orienteering.org/datastandard/3.0" iofVersion="3.0" createTime="2017-10-08T20:28:45.000+02:00" creator="SI-Droid Event 1.7">
+<ResultList xmlns="http://www.orienteering.org/datastandard/3.0" iofVersion="3.0" createTime="2017-10-08T22:56:53.000+02:00" creator="SI-Droid Event 1.7">
   <Event>
     <Name>MTB-OL</Name>
   </Event>
+  <ClassResult>
+    <Class>
+      <Name>No course</Name>
+    </Class>
+    <Course>
+      <Name>No course</Name>
+      <NumberOfControls>0</NumberOfControls>
+    </Course>
+    <PersonResult>
+      <Person>
+        <Name>
+          <Family>Wilhelmsson</Family>
+          <Given>Putte</Given>
+        </Name>
+      </Person>
+      <Organisation>
+        <Name>OK Dacke</Name>
+      </Organisation>
+      <Result>
+        <StartTime>2014-04-05T09:10:41</StartTime>
+        <FinishTime>2014-04-05T09:23:35</FinishTime>
+        <Time>774</Time>
+        <TimeBehind>0</TimeBehind>
+        <Position>1</Position>
+        <Status>OK</Status>
+        <SplitTime>
+          <ControlCode>101</ControlCode>
+          <Time>37</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>102</ControlCode>
+          <Time>166</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>103</ControlCode>
+          <Time>264</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>104</ControlCode>
+          <Time>367</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>105</ControlCode>
+          <Time>395</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>106</ControlCode>
+          <Time>487</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>107</ControlCode>
+          <Time>558</Time>
+        </SplitTime>
+        <SplitTime>
+          <ControlCode>108</ControlCode>
+          <Time>667</Time>
+        </SplitTime>
+        <ControlCard>440950</ControlCard>
+      </Result>
+    </PersonResult>
+  </ClassResult>
   <ClassResult>
     <Class>
       <Name>Lätt</Name>
@@ -119,58 +180,6 @@
     <PersonResult>
       <Person>
         <Name>
-          <Family>Wilhelmsson</Family>
-          <Given>Putte</Given>
-        </Name>
-      </Person>
-      <Organisation>
-        <Name>OK Dacke</Name>
-      </Organisation>
-      <Result>
-        <StartTime>2014-04-05T09:10:41</StartTime>
-        <FinishTime>2014-04-05T09:23:35</FinishTime>
-        <Time>774</Time>
-        <TimeBehind>33</TimeBehind>
-        <Position>3</Position>
-        <Status>OK</Status>
-        <SplitTime>
-          <ControlCode>101</ControlCode>
-          <Time>37</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>102</ControlCode>
-          <Time>166</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>103</ControlCode>
-          <Time>264</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>104</ControlCode>
-          <Time>367</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>105</ControlCode>
-          <Time>395</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>106</ControlCode>
-          <Time>487</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>107</ControlCode>
-          <Time>558</Time>
-        </SplitTime>
-        <SplitTime>
-          <ControlCode>108</ControlCode>
-          <Time>667</Time>
-        </SplitTime>
-        <ControlCard>440950</ControlCard>
-      </Result>
-    </PersonResult>
-    <PersonResult>
-      <Person>
-        <Name>
           <Family>Myrefelt</Family>
           <Given>Sonny</Given>
         </Name>
@@ -183,7 +192,7 @@
         <FinishTime>2014-04-05T09:36:18</FinishTime>
         <Time>829</Time>
         <TimeBehind>88</TimeBehind>
-        <Position>4</Position>
+        <Position>3</Position>
         <Status>OK</Status>
         <SplitTime>
           <ControlCode>101</ControlCode>
@@ -235,7 +244,7 @@
         <FinishTime>2014-04-05T09:29:28</FinishTime>
         <Time>878</Time>
         <TimeBehind>137</TimeBehind>
-        <Position>5</Position>
+        <Position>4</Position>
         <Status>OK</Status>
         <SplitTime>
           <ControlCode>101</ControlCode>
@@ -287,7 +296,7 @@
         <FinishTime>2014-04-05T09:41:30</FinishTime>
         <Time>1088</Time>
         <TimeBehind>347</TimeBehind>
-        <Position>6</Position>
+        <Position>5</Position>
         <Status>OK</Status>
         <SplitTime>
           <ControlCode>101</ControlCode>
@@ -339,7 +348,7 @@
         <FinishTime>2014-04-05T09:34:20</FinishTime>
         <Time>1134</Time>
         <TimeBehind>393</TimeBehind>
-        <Position>7</Position>
+        <Position>6</Position>
         <Status>OK</Status>
         <SplitTime>
           <ControlCode>101</ControlCode>
@@ -391,7 +400,7 @@
         <FinishTime>2014-04-05T09:41:25</FinishTime>
         <Time>1283</Time>
         <TimeBehind>542</TimeBehind>
-        <Position>8</Position>
+        <Position>7</Position>
         <Status>OK</Status>
         <SplitTime>
           <ControlCode>101</ControlCode>
