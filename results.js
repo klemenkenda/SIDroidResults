@@ -24,7 +24,7 @@ function Results() {
      */
     this.loadXML = function(xml) {
         // self for reference in async routines
-        // results is passed as a reference to the object
+        // results is passed as a context to the function
         
         console.log("Load XML");
         $xml = $(xml);
@@ -60,6 +60,7 @@ function Results() {
      * extractTable
      * @param {xml} $classResult    ClassResult part from IOF XML v3.
      * @param {object} self         Pointer to results object.
+     * Extracts table of results from the IOF XML v3 (ClassResult).
      */
     this.extractTable = function($classResult) {
         // create empty result table
@@ -127,16 +128,21 @@ function Results() {
      * Updates results tables on the main page.
      */
     this.updateResults = function() {
+        // transverse through all classes
         for (var i in this.classes) {
+            // find class data
             var className = this.classes[i].class;
             var results = this.classes[i].results;
             var classHash = "#" + className;
             // create results
+            // empty the class results DOM object and create a new table in it
             $(classHash).empty();
             $(classHash).append('<table class="table table-hover table-striped"><tbody></tbody></table>');
             
+            // transverse through all the persons in the results
             for (var j in results) {
                 console.log(results[j]);
+                // extract data
                 var name = results[j].name;
                 var status = results[j].status;
                 var position = results[j].position;
@@ -147,6 +153,7 @@ function Results() {
                 // render fields
                 name = name + '<br><span class="small">' + club + "</span>";
 
+                // calculate time fields
                 time = this.formatTime(time);
                 timeBehind = this.formatTime(timeBehind);
                 if (timeBehind != "0:00") timeBehind = "+" + timeBehind;
