@@ -122,7 +122,8 @@ function Results() {
         var secs = time % 60 + "";
         if (secs.length == 1) secs = "0" + secs;
         var min = Math.floor(time / 60);
-        return min + ":" + secs;
+        var time = min + ":" + secs;
+        return time.replace(/NaN/g, "--");
     }
 
     /**
@@ -199,7 +200,7 @@ function Results() {
         var vals = $(that).attr("data-href").split(",");
         // find a class
         this.$xml.find("ClassResult").each(function() {
-            var className = $(this).find("Class").find("Name").text();
+            var className = $(this).find("Class").find("Name").text().replace(" ", "-");
             var length = $(this).find("Course > Length").text();
             var controls = $(this).find("Course > NumberOfControls").text();
             var runners = $(this).find("PersonResult").length;
@@ -230,8 +231,8 @@ function Results() {
         var name = given + " " + family;
         var club = $(result).find("Organisation").find("Name").text();
         var si = $(result).find("Result").find("ControlCard").text();
-        var timesecs = $(result).find("Result > Time").text();
-        var timeBehind = $(result).find("Result").find("TimeBehind").text();
+        var timesecs = parseInt($(result).find("Result > Time").text());
+        var timeBehind = parseInt($(result).find("Result").find("TimeBehind").text());
         
         // get status
         var status = $(result).find("Result").find("Status").text();
@@ -262,11 +263,63 @@ function Results() {
         var splitCodes = [];
 
         $(result).find("Result > SplitTime").each(function() {
-            splits.push($(this).find("Time").text());
+            splits.push(parseInt($(this).find("Time").text()));
             splitCodes.push($(this).find("ControlCode").text());
-        })
+        });
+
+        // add finish
+        splits.push(timesecs);
+        splitCodes.push("F");
 
         console.log(name, club, si, className, time, timeBehind, status, position, perkm, splits, splitCodes);
+
+        // finally it is time render the results
+        var sheet = $("#div-splits");
+        sheet.empty();
+        sheet.append("<b>Name:</b> " + name + " <i>(" + club + ")<br>");
+        sheet.append("<b>SI:</b> " + si);
+        sheet.append("<hr>");
+        sheet.append("<b>Course:</b> " + className);
+        if (status == "OK") sheet.append(", <b>Position:</b> " + position + "/" + runners);
+        sheet.append("<br>");
+        sheet.append("<b>Result:</b> " + time + " (" + timeBehind + ")");
+        if (status == "OK") sheet.append(", " + perkm + " min/km");
+        sheet.append("<br>");
+        sheet.append("<br><b>Splits</b><br>");
+        sheet.append("<hr>");
+
+        // render splits - n per row
+        var n = 4; // TODO: this could go to config file
+        var table = $("<table style=\"width: 100%\">");
+        var tr = $('<tr>');
+        for (var i in splits) {
+            if (i % n == 0) {
+                tr = $('<tr>');
+            }
+            var cumTime = this.formatTime(splits[i]);
+            var splitTime = cumTime;
+            if (i > "0") splitTime = this.formatTime(splits[i] - splits[i - 1]);
+            var splitCode = splitCodes[i];
+            var ni = parseInt(i) + 1;
+            tr.append("<td width=\"25%\" style=\"padding-bottom: 10px; text-align: right;\">" + (ni) + " (" + splitCode +")<br>" + 
+                "<b>" + splitTime + "</b><br>" + 
+                cumTime + " </td>");
+
+            if (i % 4 == 3) {
+                table.append(tr);
+                tr = null;
+            }
+        }
+        table.append(tr);
+        $("#div-splits").append(table);
+
+        console.log(table);
+
+        // at the end, display the layer
+        $("#div-splits").on("click", function() {
+            $("#div-splits").css("display", "none");
+        })
+        $("#div-splits").css("display", "block")
     }
 
     /**
