@@ -11,6 +11,7 @@ function Results() {
     this.eventName = 'Race name';
     this.timeStamp = '';
     this.classes = [];
+    this.$xml = null;
 
     // extract recent data from localStorage
     if ('eventName'in localStorage) this.eventName = localStorage['eventName'];
@@ -28,6 +29,7 @@ function Results() {
         
         console.log("Load XML");
         $xml = $(xml);
+        results.$xml = $xml;
         results.timeStamp = timeStamp = $xml.find("ResultList").attr("createTime");
         console.log("XML timestamp", this.timeStamp);
         
@@ -150,6 +152,9 @@ function Results() {
                 var time = results[j].time;
                 var timeBehind = results[j].timeBehind;
 
+                // create clickable row href
+                href = className + "," + name + "," + time;
+
                 // render fields
                 name = name + '<br><span class="small">' + club + "</span>";
 
@@ -167,11 +172,102 @@ function Results() {
 
                 // add to table
                 $(classHash + " table > tbody")
-                    .append('<tr><td>' + position + '</td><td>' + name + '</td><td align="right">' + time + '</td></tr>');
+                    .append('<tr class="clickable-row" data-href="' +  href + '"><td>' + position + '</td><td>' + name + '</td><td align="right">' + time + '</td></tr>');
             }
-
         }
+        // attach handler to clickable row
+        var self = this;
+        $(".clickable-row").on("click", function() {
+            self.clickRow(this) 
+        });
+        
+        /*
+        $("table").on("click", function (row, $el, field) {
+            console.log(row, $el, field);
+        });
+        */
     };
+
+
+    /**
+     * clickRow
+     */
+    this.clickRow = function(that) {
+        // make self
+        var self = this;
+        // extract vals to seach
+        var vals = $(that).attr("data-href").split(",");
+        // find a class
+        this.$xml.find("ClassResult").each(function() {
+            var className = $(this).find("Class").find("Name").text();
+            var length = $(this).find("Course > Length").text();
+            var controls = $(this).find("Course > NumberOfControls").text();
+            var runners = $(this).find("PersonResult").length;
+            if (className == vals[0]) {
+                console.log("Found correct class: " + className);
+                // find the runner
+                $(this).find("PersonResult").each(function() {
+                    var given = $(this).find("Person").find("Name").find("Given").text();
+                    var family = $(this).find("Person").find("Name").find("Family").text();
+                    var name = given + " " + family;                    
+                    if (name == vals[1]) {
+                        console.log("Found correct runner: " + name);
+                        self.generateRunnerResults(this, className, length, controls, runners);
+                    }
+                })
+            }
+        });
+    }
+
+    /**
+     * generateRunnerResults
+     * @param {xml} result Personal result, extracted from XML.
+     */
+    this.generateRunnerResults = function(result, className, length, controls, runners) {
+        // extract data
+        var given = $(result).find("Person").find("Name").find("Given").text();
+        var family = $(result).find("Person").find("Name").find("Family").text();
+        var name = given + " " + family;
+        var club = $(result).find("Organisation").find("Name").text();
+        var si = $(result).find("Result").find("ControlCard").text();
+        var timesecs = $(result).find("Result > Time").text();
+        var timeBehind = $(result).find("Result").find("TimeBehind").text();
+        
+        // get status
+        var status = $(result).find("Result").find("Status").text();
+        // convert statuses
+        if (status == "DidNotFinish") status = "DNF";
+        if (status == "MissingPunch") status = "MP";
+        if (status == "DidNotStart") status= "DNS";
+
+        var position = $(result).find("Result").find("Position").text();
+        // calculate time fields
+        time = this.formatTime(timesecs);
+        timeBehind = this.formatTime(timeBehind);
+        if (timeBehind != "0:00") timeBehind = "+" + timeBehind;
+        if (status != "OK") {
+            position = "";
+            time = status;
+            timeBehind = "--:--";
+        }
+       
+        // time per km
+        var perkm = "n/a";
+        if ((length != 0) && (!isNaN(length))) {
+            perkm = Math.round(timesecs / length * 1000);
+            perkm = this.formatTime(perkm);
+        }
+        // card punches
+        var splits = [];
+        var splitCodes = [];
+
+        $(result).find("Result > SplitTime").each(function() {
+            splits.push($(this).find("Time").text());
+            splitCodes.push($(this).find("ControlCode").text());
+        })
+
+        console.log(name, club, si, className, time, timeBehind, status, position, perkm, splits, splitCodes);
+    }
 
     /**
      * updateMetadata
@@ -217,7 +313,7 @@ $(document).ready(function () {
             success: results.loadXML,
             context: results
         });
-    }, 5000);
+    }, 30000);
 
 });
 
