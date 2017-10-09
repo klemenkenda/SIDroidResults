@@ -105,7 +105,9 @@ function Results() {
      */
     this.updateClasses = function() {
         console.log("updateClasses", this.classes);
+        // empty the classes div
         $("#classes").empty();
+        // populate it with titles and result divs
         for (var i in this.classes) {
             $("#classes").append('<button type="button" class="btn btn-primary" style="width: 100%; margin-bottom: 4px;">' + this.classes[i].class + '</button>');
             $("#classes").append('<div id="' + this.classes[i].class + '"></div>')
@@ -123,6 +125,7 @@ function Results() {
         if (secs.length == 1) secs = "0" + secs;
         var min = Math.floor(time / 60);
         var time = min + ":" + secs;
+        // return value replaces NaN (of non existent times) with --
         return time.replace(/NaN/g, "--");
     }
 
@@ -181,12 +184,6 @@ function Results() {
         $(".clickable-row").on("click", function() {
             self.clickRow(this) 
         });
-        
-        /*
-        $("table").on("click", function (row, $el, field) {
-            console.log(row, $el, field);
-        });
-        */
     };
 
 
@@ -220,6 +217,7 @@ function Results() {
         });
     }
 
+
     /**
      * generateRunnerResults
      * @param {xml} result Personal result, extracted from XML.
@@ -234,7 +232,7 @@ function Results() {
         var timesecs = parseInt($(result).find("Result > Time").text());
         var timeBehind = parseInt($(result).find("Result").find("TimeBehind").text());
         
-        // get status
+        // extract status data
         var status = $(result).find("Result").find("Status").text();
         // convert statuses
         if (status == "DidNotFinish") status = "DNF";
@@ -258,7 +256,7 @@ function Results() {
             perkm = Math.round(timesecs / length * 1000);
             perkm = this.formatTime(perkm);
         }
-        // card punches
+        // extract card punches
         var splits = [];
         var splitCodes = [];
 
@@ -271,6 +269,7 @@ function Results() {
         splits.push(timesecs);
         splitCodes.push("F");
 
+        // log extracted information
         console.log(name, club, si, className, time, timeBehind, status, position, perkm, splits, splitCodes);
 
         // finally it is time render the results
@@ -294,32 +293,41 @@ function Results() {
         var table = $("<table style=\"width: 100%\">");
         var tr = $('<tr>');
         for (var i in splits) {
+            // insert a new line every n fields
             if (i % n == 0) {
                 tr = $('<tr>');
             }
+            // extract split time information and format it
             var cumTime = this.formatTime(splits[i]);
             var splitTime = cumTime;
             if (i > "0") splitTime = this.formatTime(splits[i] - splits[i - 1]);
             var splitCode = splitCodes[i];
+            // calculate the sequence number of a control
             var ni = parseInt(i) + 1;
+            // add data in the field
             tr.append("<td width=\"25%\" style=\"padding-bottom: 10px; text-align: right;\">" + (ni) + " (" + splitCode +")<br>" + 
                 "<b>" + splitTime + "</b><br>" + 
                 cumTime + " </td>");
 
+            // if the row is full, then insert it into the table
             if (i % 4 == 3) {
                 table.append(tr);
+                // reset the row
                 tr = null;
             }
         }
+        // if the row was not inserted above (last line with incomplete number
+        // of fields), then add it here
         table.append(tr);
+        // add table to the DOM
         $("#div-splits").append(table);
 
         console.log(table);
 
-        // at the end, display the layer
+        // at the end, display the layer and
+        // create a click event on it, which closes the div
         $("#div-splits").on("click", function() {
             $("#div-splits").css("display", "none");
-            console.log("div");
         });
         $("#div-splits").css("display", "block")
     }
@@ -330,15 +338,16 @@ function Results() {
      * Prints the splits sheet.
      */
     this.printSheet = function() {
-        console.log("show");
+        console.log("Printing splits sheet.");
+        // show the layer, if it gets closed by clicking on the layer
         $("#div-splits").show();
+        // using printThis module for printing a HTML element
         $("#div-splits").printThis({
             importCSS: true,
             importStyle: true,            
             loadCSS: "print.css",            
             printContainer: false, 
-        });
-        
+        });        
     }
 
 
@@ -351,6 +360,7 @@ function Results() {
         $("#date").text(this.timeStamp);
     };
 
+    
     // postConstructor
     // update values in GUI
     var self = this;
