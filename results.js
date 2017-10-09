@@ -276,6 +276,7 @@ function Results() {
         // finally it is time render the results
         var sheet = $("#div-splits");
         sheet.empty();
+        sheet.append(this.eventName + ", " + this.timeStamp.substring(0, 10) + "<br>");
         sheet.append("<b>Name:</b> " + name + " <i>(" + club + ")<br>");
         sheet.append("<b>SI:</b> " + si);
         sheet.append("<hr>");
