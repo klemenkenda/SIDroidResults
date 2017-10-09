@@ -332,7 +332,12 @@ function Results() {
     this.printSheet = function() {
         console.log("show");
         $("#div-splits").show();
-        $("#div-splits").printThis({printContainer: true, loadCSS: "print.css" });
+        $("#div-splits").printThis({
+            importCSS: true,
+            importStyle: true,            
+            loadCSS: "print.css",            
+            printContainer: false, 
+        });
         
     }
 
