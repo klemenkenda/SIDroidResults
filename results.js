@@ -285,7 +285,7 @@ function Results() {
         sheet.append("<b>Result:</b> " + time + " (" + timeBehind + ")");
         if (status == "OK") sheet.append(", " + perkm + " min/km");
         sheet.append("<br>");
-        sheet.append("<br><b>Splits</b><br>");
+        sheet.append("<br><b>Splits</b> <span class=\"no-print\">| <a href=\"javascript:results.printSheet();\">print</a></span><br>");
         sheet.append("<hr>");
 
         // render splits - n per row
@@ -318,9 +318,23 @@ function Results() {
         // at the end, display the layer
         $("#div-splits").on("click", function() {
             $("#div-splits").css("display", "none");
-        })
+            console.log("div");
+        });
         $("#div-splits").css("display", "block")
     }
+
+
+    /**
+     * printSheet
+     * Prints the splits sheet.
+     */
+    this.printSheet = function() {
+        console.log("show");
+        $("#div-splits").show();
+        $("#div-splits").printThis({printContainer: true, loadCSS: "print.css" });
+        
+    }
+
 
     /**
      * updateMetadata
