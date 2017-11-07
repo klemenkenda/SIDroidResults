@@ -1,0 +1,16 @@
+@page {
+    size: auto;
+    margin-left: 1cm;
+    margin-right: 11cm;
+    margin-top: 0cm;
+    margin-bottom: 0cm;
+}
+
+body {
+    margin: 0;
+    padding-top: 1cm;
+}
+
+.no-print {
+    display: none;
+}
